@@ -1,0 +1,27 @@
+@import "../../styles/lib";
+
+.Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: $background-color;
+
+  h2 {
+    color: $gray-dark;
+    font-weight: normal;
+  }
+
+  p {
+    color: $text-muted;
+  }
+
+  a {
+    color: $accent-2;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
