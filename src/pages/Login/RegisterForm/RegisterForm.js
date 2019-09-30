@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
 
-import "./LoginForm.scss";
-
-const LoginForm = () => {
+const RefisterForm = () => {
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,11 +16,20 @@ const LoginForm = () => {
     setPassword(event.target.value);
   };
 
+  const onChangeEmail = event => {
+    setEmail(event.target.value);
+  };
+
   return (
     <>
-      <h2>Welcome Back!</h2>
-      <p className="mt-1">We’re so excited to see you again!</p>
-      <form className=" LoginForm">
+      <h2 className="mb-2">Create an account</h2>
+      <form className=" RefisterForm">
+        <Input
+          type="email"
+          value={email}
+          onChange={onChangeEmail}
+          placeholder="Email"
+        />
         <Input
           type="text"
           value={username}
@@ -34,13 +42,13 @@ const LoginForm = () => {
           onChange={onChangePass}
           placeholder="Password"
         />
-        <Button className={"Button Button--full"}>Login</Button>
+        <Button className={"Button Button--full"}>Continue</Button>
       </form>
       <p className="mt-1 text-left">
-        Don't have an account? <Link to="/register">Register</Link>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </>
   );
 };
 
-export default LoginForm;
+export default RefisterForm;
