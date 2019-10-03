@@ -1,45 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Input from "../../../components/Input/Input";
+import Block from "../../../components/Block/Block";
+import useForm from "../../../hooks";
 import Button from "../../../components/Button/Button";
 
-import "./LoginForm.scss";
+import "../Login.scss";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onChangeName = event => {
-    setUsername(event.target.value);
-  };
-
-  const onChangePass = event => {
-    setPassword(event.target.value);
-  };
+  const [values, errors, handleChange, handleSubmit] = useForm({
+    username: "",
+    password: ""
+  });
 
   return (
-    <>
-      <h2>Welcome Back!</h2>
-      <p className="mt-1">We’re so excited to see you again!</p>
-      <form className=" LoginForm">
-        <Input
-          type="text"
-          value={username}
-          onChange={onChangeName}
-          placeholder="Username"
-        />
-        <Input
-          type="password"
-          value={password}
-          onChange={onChangePass}
-          placeholder="Password"
-        />
-        <Button className={"Button Button--full"}>Login</Button>
-      </form>
-      <p className="mt-1 text-left">
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
-    </>
+    <div className="Login">
+      <Block>
+        <h2>Welcome Back!</h2>
+        <p className="mt-1">We’re so excited to see you again!</p>
+        <form className="LoginForm" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            value={values.username}
+            onChange={handleChange}
+            className={errors.username && "inputValidationRrror"}
+            placeholder="Username"
+          />
+          {errors.username && (
+            <div className="textValidationError text-left ">
+              {errors.username}
+            </div>
+          )}
+          <input
+            type="password"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+            className={errors.password && "inputValidationRrror"}
+            placeholder="Password"
+          />
+          {errors.password && (
+            <div className="textValidationError text-left ">
+              {errors.password}
+            </div>
+          )}
+          <Button className={"Button Button--full"}>Login</Button>
+        </form>
+        <p className="mt-1 text-left">
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
+      </Block>
+    </div>
   );
 };
 

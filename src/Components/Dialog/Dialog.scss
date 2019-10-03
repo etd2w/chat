@@ -1,0 +1,46 @@
+@import "../../styles/lib";
+
+.dialog {
+  display: flex;
+  align-items: center;
+
+  &__avatar {
+    img {
+      border-radius: 50%;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  &__content {
+    max-width: 16rem;
+    margin-left: 0.5rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__username {
+    color: $gray-dark;
+    margin-right: 1rem;
+    font-weight: 600;
+  }
+
+  &__timestamp {
+    color: $gray-lighter;
+    margin-left: auto;
+    font-size: 0.75rem;
+  }
+
+  &__body {
+    margin-top: 0.5rem;
+  }
+
+  &__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

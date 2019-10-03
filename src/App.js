@@ -1,10 +1,21 @@
 import React from "react";
-import Login from "./pages/Login/Login";
+import { Route } from "react-router-dom";
+import LoginForm from "./pages/Login/LoginForm/LoginForm";
+import RegisteForm from "./pages/Login/RegisterForm/RegisterForm";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      <Route exact path="/login">
+        <LoginForm />
+      </Route>
+      <Route exact path="/register">
+        <RegisteForm />
+      </Route>
+      <Route exact path="/home">
+        <Home />
+      </Route>
     </div>
   );
 }
