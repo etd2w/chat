@@ -1,67 +1,43 @@
 import React from "react";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Block from "../../../components/Block/Block";
-import useForm from "../../../hooks";
-import Button from "../../../components/Button/Button";
+import { color } from "../../../styles/global";
+
+import Button from "../../../components/Button/";
+import Input from "../../../components/Input";
+
+const RegisterFormStyled = styled.div`
+  input {
+    min-width: 25rem;
+    margin-top: 2rem;
+  }
+
+  button {
+    margin-top: 2rem;
+  }
+
+  .text-sm {
+    color: ${color.muted};
+    margin-top: 1rem;
+  }
+`;
 
 const RefisterForm = () => {
-  const [values, errors, handleChange, handleSubmit] = useForm({
-    email: "",
-    username: "",
-    password: ""
-  });
-
   return (
-    <div className="Login">
-      <Block>
-        <h2 className="mb-2">Create an account</h2>
-        <form className="RefisterForm" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            className={errors.email && "inputValidationRrror"}
-            placeholder="Email"
-          />
-          {errors.email && (
-            <div className="textValidationError text-left ">{errors.email}</div>
-          )}
-          <input
-            type="text"
-            name="username"
-            value={values.username}
-            onChange={handleChange}
-            className={errors.username && "inputValidationRrror"}
-            placeholder="Username"
-          />
-          {errors.username && (
-            <div className="textValidationError text-left ">
-              {errors.username}
-            </div>
-          )}
-          <input
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            className={errors.password && "inputValidationRrror"}
-            placeholder="Password"
-          />
-          {errors.password && (
-            <div className="textValidationError text-left ">
-              {errors.password}
-            </div>
-          )}
-          <Button type="submit" className={"Button Button--full"}>
-            Continue
-          </Button>
-        </form>
-        <p className="mt-1 text-left">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </Block>
-    </div>
+    <RegisterFormStyled>
+      <h2 className="mb-2">Create an account</h2>
+      <form className="RefisterForm">
+        <Input type="text" name="email" initValue={{ email: "" }} />
+        <Input type="text" name="username" initValue={{ username: "" }} />
+        <Input type="password" name="password" initValue={{ password: "" }} />
+        <Button size="full" type="submit" bg="primary">
+          Continue
+        </Button>
+      </form>
+      <p className="text-sm">
+        Already have an account? <Link to="/login">Login</Link>
+      </p>
+    </RegisterFormStyled>
   );
 };
 
