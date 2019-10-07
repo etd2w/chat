@@ -5,7 +5,7 @@ import { color } from "../../styles/global";
 
 import Avatar from "../Avatar";
 
-const DialogStyled = styled.div`
+const DialogStyled = styled.li`
   display: flex;
   padding: 0.375rem 0.75rem;
   cursor: pointer;
@@ -19,6 +19,7 @@ const DialogStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     margin-left: 0.75rem;
+    min-width: 17rem;
     width: 100%;
   }
 
@@ -49,20 +50,24 @@ const DialogStyled = styled.div`
   }
 `;
 
-const Dialog = ({ src, username, timestamp, message }) => {
+const Dialog = ({ src, username, timestamp, message, isCompact }) => {
   return (
     <DialogStyled>
       <Avatar src={src} username={username} />
 
-      <div className="dialog__content">
-        <div className="dialog__header">
-          <span className="dialog__username">{username}</span>
-          <time className="dialog__timestamp">{timestamp}</time>
+      {isCompact ? (
+        ""
+      ) : (
+        <div className="dialog__content">
+          <div className="dialog__header">
+            <span className="dialog__username">{username}</span>
+            <time className="dialog__timestamp">{timestamp}</time>
+          </div>
+          <div className="dialog__body">
+            <div className="dialog__text">{message}</div>
+          </div>
         </div>
-        <div className="dialog__body">
-          <div className="dialog__text">{message}</div>
-        </div>
-      </div>
+      )}
     </DialogStyled>
   );
 };

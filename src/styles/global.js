@@ -118,6 +118,11 @@ export const bodyStyles = css`
     font-size: 1.5rem;
     color: ${color.muted};
   }
+
+  #root,
+  .App {
+    height: 100vh;
+  }
 `;
 
 export const GlobalStyle = createGlobalStyle`
