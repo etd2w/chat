@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { formatDistanceToNow } from "date-fns";
+// import { formatDistanceToNow } from "date-fns";
 
 import { color } from "../../styles/global";
 

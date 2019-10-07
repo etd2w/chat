@@ -32,14 +32,16 @@ const ChatStyled = styled.div`
 
   .textarea {
     display: flex;
-    padding: 0.75rem;
+    padding: 0.5rem;
     border-top: 1px solid ${color.medium};
 
     input {
       width: 100%;
+      padding-left: .5rem;
       border: none;
       background: transparent;
       outline: none;
+      color: inherit;
     }
   }
 `;

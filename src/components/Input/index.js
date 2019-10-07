@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { color } from "../../styles/global";
-import useForm from "../../hooks/";
+import { useForm } from "../../hooks/";
 
 const InputStyled = styled.input`
   display: block;

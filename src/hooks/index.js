@@ -54,4 +54,29 @@ const useForm = initialState => {
   return [values, errors, handleChange, handleSubmit];
 };
 
-export default useForm;
+const useSearch = dialogsState => {
+  const [value, setValue] = useState("");
+  const [dialogs, setDialogs] = useState(dialogsState);
+
+  const filterDialogs = value => {
+    const filtred = dialogsState.filter(dialog =>
+      dialog.username.toLowerCase().includes(value.toLowerCase())
+    );
+    setDialogs(filtred);
+  };
+
+  const changeSizeOfDialogs = () => {
+    dialogs.forEach(element => {
+      element.isCompact = !element.isCompact;
+    });
+  };
+
+  const handleChange = event => {
+    setValue(event.target.value);
+    filterDialogs(event.target.value);
+  };
+
+  return [dialogs, value, handleChange, changeSizeOfDialogs];
+};
+
+export { useForm, useSearch };
