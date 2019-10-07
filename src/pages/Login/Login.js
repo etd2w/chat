@@ -4,12 +4,16 @@ import styled from "styled-components";
 import LoginForm from "./LoginForm/LoginForm";
 import RegisteForm from "./RegisterForm/RegisterForm";
 
+import Illustration from "../../components/Illustration";
+
 const LoginStyled = styled.div`
   display: flex;
   height: 100vh;
   align-items: center;
 
   .half {
+    height: 100%;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,7 +33,9 @@ const Login = () => {
         </Route>
       </div>
 
-      <div className="half">eererfe</div>
+      <div className="half">
+        <Illustration />
+      </div>
     </LoginStyled>
   );
 };
