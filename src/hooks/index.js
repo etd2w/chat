@@ -54,29 +54,29 @@ const useForm = initialState => {
   return [values, errors, handleChange, handleSubmit];
 };
 
-const useSearch = dialogsState => {
+const useSearch = initialRooms => {
   const [value, setValue] = useState("");
-  const [dialogs, setDialogs] = useState(dialogsState);
+  const [rooms, setRooms] = useState(initialRooms);
 
-  const filterDialogs = value => {
-    const filtred = dialogsState.filter(dialog =>
+  const filterRooms = value => {
+    const filtred = initialRooms.filter(dialog =>
       dialog.username.toLowerCase().includes(value.toLowerCase())
     );
-    setDialogs(filtred);
+    setRooms(filtred);
   };
 
-  const changeSizeOfDialogs = () => {
-    dialogs.forEach(element => {
+  const changeSizeOfRooms = () => {
+    rooms.forEach(element => {
       element.isCompact = !element.isCompact;
     });
   };
 
   const handleChange = event => {
     setValue(event.target.value);
-    filterDialogs(event.target.value);
+    filterRooms(event.target.value);
   };
 
-  return [dialogs, value, handleChange, changeSizeOfDialogs];
+  return [rooms, value, handleChange, changeSizeOfRooms];
 };
 
 export { useForm, useSearch };

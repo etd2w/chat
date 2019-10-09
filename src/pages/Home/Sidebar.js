@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { color } from "../../styles/global";
 import { ArrowToLeft } from "../../components/Icons";
 
-import Dialog from "../../components/Dialog/";
+import Room from "../../components/Room/";
 
 import { useSearch } from "../../hooks";
 
@@ -38,7 +38,7 @@ const SidebarStyled = styled.div`
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [dialogs, value, handleChange, changeSizeOfDialogs] = useSearch([
+  const [Rooms, value, handleChange, changeSizeOfRooms] = useSearch([
     {
       src: "https://i.imgur.com/EJ8Dlmf.png",
       username: "Francisco Russell",
@@ -97,15 +97,15 @@ const Sidebar = () => {
           className="buttonWithIcon"
           onClick={() => {
             setIsSidebarOpen(!isSidebarOpen);
-            changeSizeOfDialogs();
+            changeSizeOfRooms();
           }}
         >
           <ArrowToLeft />
         </button>
       </div>
       <ul className="listOfDialogs">
-        {dialogs.map((dialog, id) => (
-          <Dialog
+        {Rooms.map((dialog, id) => (
+          <Room
             key={id}
             src={dialog.src}
             username={dialog.username}
@@ -117,7 +117,7 @@ const Sidebar = () => {
 
         {/* 
 
-        <Dialog
+        <Room
           src="https://i.imgur.com/oXuBAwH.png"
           username="Esther Jones"
           timestamp="14.08.19"
