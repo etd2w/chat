@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { color } from "../../styles/global";
 import { ArrowToLeft } from "../../components/Icons";
@@ -20,7 +21,6 @@ const SidebarStyled = styled.div`
   }
 
   input {
-    display: ${props => (props.isSidebarOpen ? "block" : "none")};
     border: none;
     background: ${color.light};
     padding: 0.375rem 0.75rem;
@@ -37,54 +37,21 @@ const SidebarStyled = styled.div`
 `;
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [Rooms, value, handleChange, changeSizeOfRooms] = useSearch([
-    {
-      src: "https://i.imgur.com/EJ8Dlmf.png",
-      username: "Francisco Russell",
-      timestamp: "30.05.18",
-      message: "Esse proident enim eu sunt ut ea consequat occ",
-      isCompact: !isSidebarOpen
-    },
-    {
-      src: "https://i.imgur.com/oOnNkX9.png",
-      username: "Theresa Howard",
-      timestamp: "25.07.19",
-      message: "Ad proident esse aute pariatur excepteur ut Lorem",
-      isCompact: !isSidebarOpen
-    },
-    {
-      src: "https://i.imgur.com/4VHfwLy.png",
-      username: "Regina Fisher",
-      timestamp: "14.08.19",
-      message: "Let me do it then I will share with everybody",
-      isCompact: !isSidebarOpen
-    },
-    {
-      src: "https://i.imgur.com/4SAZjSB.png",
-      username: "Ricardo Flores",
-      timestamp: "13.03.18",
-      message: "Aute culpa voluptate amet cupidatat",
-      isCompact: !isSidebarOpen
-    },
-    {
-      src: "https://i.imgur.com/9h5cZBE.png",
-      username: "Francisco Bell",
-      timestamp: "14.08.19",
-      message: "Consectetur pariatur excepteur elit nisi excepteur",
-      isCompact: !isSidebarOpen
-    },
-    {
-      src: "https://i.imgur.com/oXuBAwH.png",
-      username: "Esther Jones",
-      timestamp: "14.08.19",
-      message: "Laborum aliquip proident enim irure eiusmod",
-      isCompact: !isSidebarOpen
-    }
-  ]);
+  const state = useSelector(state => state.rooms);
+  const dispatch = useDispatch();
+  const [Rooms, value, handleChange, changeSizeOfRooms] = useSearch(
+    state.rooms
+  );
+
+  useEffect(() => {
+    fetch("http://localhost:3000/rooms")
+      .then(response => response.json())
+      .then(posts => dispatch({ type: "FETCH_ROOMS", payload: posts }));
+  }, [dispatch]);
+  console.log(Rooms);
 
   return (
-    <SidebarStyled isSidebarOpen={isSidebarOpen}>
+    <SidebarStyled>
       <div className="header">
         <input
           type="text"
@@ -96,7 +63,6 @@ const Sidebar = () => {
         <button
           className="buttonWithIcon"
           onClick={() => {
-            setIsSidebarOpen(!isSidebarOpen);
             changeSizeOfRooms();
           }}
         >
