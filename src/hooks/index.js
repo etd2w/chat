@@ -49,25 +49,4 @@ const useForm = initialState => {
   return [values, errors, handleChange, handleSubmit];
 };
 
-// UseSearch
-
-const useSearch = initialRooms => {
-  const [value, setValue] = useState("");
-  const [rooms, setRooms] = useState(initialRooms);
-
-  const filterRooms = value => {
-    const filtred = initialRooms.filter(dialog =>
-      dialog.username.toLowerCase().includes(value.toLowerCase())
-    );
-    setRooms(filtred);
-  };
-
-  const handleChange = event => {
-    setValue(event.target.value);
-    filterRooms(event.target.value);
-  };
-
-  return [rooms, value, handleChange];
-};
-
-export { useForm, useSearch };
+export { useForm };
