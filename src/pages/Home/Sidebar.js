@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import { color } from "../../styles/global";
 import { ArrowToLeft } from "../../components/Icons";
 
-import Room from "../../components/Room/";
+import { fetchRooms } from "../../actions";
 
-import { useSearch } from "../../hooks";
+import Room from "../../components/Room/";
 
 const SidebarStyled = styled.div`
   max-width: 23.25rem;
   border-right: 1px solid ${color.medium};
 
   .header {
-    min-width: ${props => props.isSidebarOpen && "22.25rem"};
     display: flex;
     padding: 0.75rem;
     justify-content: center;
-    height: ${props => (props.isSidebarOpen ? "" : "54px")};
+    height: ${props => (props.isCompact ? "54px" : "")};
   }
 
   input {
+    display: ${props => (props.isCompact ? "none" : "block")};
     border: none;
     background: ${color.light};
     padding: 0.375rem 0.75rem;
@@ -31,27 +31,39 @@ const SidebarStyled = styled.div`
   }
 
   svg {
-    transform: ${props => (props.isSidebarOpen ? "" : "rotate(180deg)")};
+    transform: ${props => (props.isCompact ? "" : "rotate(180deg)")};
     transition: transform 0.2s ease-out;
   }
 `;
 
 const Sidebar = () => {
+  const [isCompact, setIsCompact] = useState(false);
+  const [value, setValue] = useState("");
+  const [filtredRooms, setfiltredRooms] = useState([]);
   const state = useSelector(state => state.rooms);
+
   const dispatch = useDispatch();
-  const [Rooms, value, handleChange, changeSizeOfRooms] = useSearch(
-    state.rooms
-  );
 
   useEffect(() => {
     fetch("http://localhost:3000/rooms")
       .then(response => response.json())
-      .then(posts => dispatch({ type: "FETCH_ROOMS", payload: posts }));
+      .then(rooms => dispatch(fetchRooms(rooms)));
   }, [dispatch]);
-  console.log(Rooms);
+
+  const filterRooms = value => {
+    const filtred = state.rooms.filter(dialog =>
+      dialog.username.toLowerCase().includes(value.toLowerCase())
+    );
+    setfiltredRooms(filtred);
+  };
+
+  const handleChange = event => {
+    setValue(event.target.value);
+    filterRooms(event.target.value);
+  };
 
   return (
-    <SidebarStyled>
+    <SidebarStyled isCompact={isCompact}>
       <div className="header">
         <input
           type="text"
@@ -62,34 +74,33 @@ const Sidebar = () => {
         />
         <button
           className="buttonWithIcon"
-          onClick={() => {
-            changeSizeOfRooms();
-          }}
+          onClick={() => setIsCompact(!isCompact)}
         >
           <ArrowToLeft />
         </button>
       </div>
       <ul className="listOfDialogs">
-        {Rooms.map((dialog, id) => (
-          <Room
-            key={id}
-            src={dialog.src}
-            username={dialog.username}
-            timestamp={dialog.timestamp}
-            message={dialog.message}
-            isCompact={dialog.isCompact}
-          />
-        ))}
-
-        {/* 
-
-        <Room
-          src="https://i.imgur.com/oXuBAwH.png"
-          username="Esther Jones"
-          timestamp="14.08.19"
-          message="Laborum aliquip proident enim irure eiusmod"
-          isCompact={!isSidebarOpen}
-        /> */}
+        {filtredRooms.length
+          ? filtredRooms.map((room, id) => (
+              <Room
+                key={id}
+                src={room.src}
+                username={room.username}
+                timestamp={room.timestamp}
+                message={room.message}
+                isCompact={isCompact}
+              />
+            ))
+          : state.rooms.map((room, id) => (
+              <Room
+                key={id}
+                src={room.src}
+                username={room.username}
+                timestamp={room.timestamp}
+                message={room.message}
+                isCompact={isCompact}
+              />
+            ))}
       </ul>
     </SidebarStyled>
   );

@@ -12,7 +12,7 @@ const InputStyled = styled.input`
 `;
 
 const Input = ({ initValue, type, name }) => {
-  const [values, errors, handleChange, handleSubmit] = useForm(initValue);
+  const [values, errors, handleChange] = useForm(initValue);
 
   return (
     <>

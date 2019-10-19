@@ -40,11 +40,6 @@ const useForm = initialState => {
     });
   };
 
-  // const handleBlur = () => {
-  //   const errors = validateForm(values);
-  //   setErrors({ ...errors });
-  // };
-
   const handleSubmit = event => {
     event.preventDefault();
     const errors = validateForm(values);
@@ -53,6 +48,8 @@ const useForm = initialState => {
 
   return [values, errors, handleChange, handleSubmit];
 };
+
+// UseSearch
 
 const useSearch = initialRooms => {
   const [value, setValue] = useState("");
@@ -65,18 +62,12 @@ const useSearch = initialRooms => {
     setRooms(filtred);
   };
 
-  const changeSizeOfRooms = () => {
-    rooms.forEach(element => {
-      element.isCompact = !element.isCompact;
-    });
-  };
-
   const handleChange = event => {
     setValue(event.target.value);
     filterRooms(event.target.value);
   };
 
-  return [rooms, value, handleChange, changeSizeOfRooms];
+  return [rooms, value, handleChange];
 };
 
 export { useForm, useSearch };
