@@ -81,14 +81,15 @@ const Sidebar = () => {
       </div>
       <ul className="listOfDialogs">
         {filtredRooms.length || value.length
-          ? filtredRooms.map((room, id) => (
+          ? filtredRooms.map(room => (
               <Room
-                key={id}
+                key={room.id}
                 src={room.src}
                 username={room.username}
                 timestamp={room.timestamp}
                 message={room.message}
                 isCompact={isCompact}
+                id={room.id}
               />
             ))
           : state.rooms.map((room, id) => (
@@ -99,6 +100,7 @@ const Sidebar = () => {
                 timestamp={room.timestamp}
                 message={room.message}
                 isCompact={isCompact}
+                id={room.id}
               />
             ))}
       </ul>

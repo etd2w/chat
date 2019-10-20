@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
 
 const initialRooms = {
-  rooms: []
+  rooms: [],
+  selectedRoom: null
 };
 
 const rooms = (state = initialRooms, action) => {
@@ -10,6 +11,11 @@ const rooms = (state = initialRooms, action) => {
       return {
         ...state,
         rooms: action.payload
+      };
+    case "SET_ROOM_ID":
+      return {
+        ...state,
+        selectedRoom: action.payload
       };
     default:
       return state;

@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 // import { formatDistanceToNow } from "date-fns";
 import { color } from "../../styles/global";
 
+import { setRoomId } from "../../actions";
 import Avatar from "../Avatar";
 
 const RoomStyled = styled.li`
@@ -50,9 +52,16 @@ const RoomStyled = styled.li`
   }
 `;
 
-const Room = ({ src, username, timestamp, message, isCompact }) => {
+const Room = ({ src, username, timestamp, message, isCompact, id }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    console.log(id);
+    dispatch(setRoomId(id));
+  };
+
   return (
-    <RoomStyled>
+    <RoomStyled onClick={handleClick}>
       <Avatar src={src} username={username} />
 
       {isCompact ? (
