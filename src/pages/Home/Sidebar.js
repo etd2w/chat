@@ -31,7 +31,7 @@ const SidebarStyled = styled.div`
   }
 
   svg {
-    transform: ${props => (props.isCompact ? "" : "rotate(180deg)")};
+    transform: ${props => (props.isCompact ? "rotate(180deg)" : "")};
     transition: transform 0.2s ease-out;
   }
 `;
@@ -80,7 +80,7 @@ const Sidebar = () => {
         </button>
       </div>
       <ul className="listOfDialogs">
-        {filtredRooms.length
+        {filtredRooms.length || value.length
           ? filtredRooms.map((room, id) => (
               <Room
                 key={id}
