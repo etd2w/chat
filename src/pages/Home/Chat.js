@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 import { color } from "../../styles/global";
 import { Paperclip, Smile, SendArrow } from "../../components/Icons";
 
+import { fetchMessages } from "../../actions";
 import Message from "../../components/Message/";
 
 const ChatStyled = styled.div`
@@ -25,8 +27,7 @@ const ChatStyled = styled.div`
   .conversation {
     flex-grow: 1;
     padding: 0.75rem;
-    background: #F7FAFC;
-    /* background: ${color.bacground}; */
+    background: #f7fafc;
     overflow-y: scroll;
   }
 
@@ -37,7 +38,7 @@ const ChatStyled = styled.div`
 
     input {
       width: 100%;
-      padding-left: .5rem;
+      padding-left: 0.5rem;
       border: none;
       background: transparent;
       outline: none;
@@ -47,6 +48,22 @@ const ChatStyled = styled.div`
 `;
 
 const Chat = () => {
+  const state = useSelector(state => state.messages);
+  const selectedRoomId = useSelector(state => state.rooms.selectedRoom);
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("http://localhost:3000/messages")
+      .then(response => response.json())
+      .then(messages => {
+        const filtred = messages.filter(
+          message => message.room_id === selectedRoomId
+        );
+        dispatch(fetchMessages(filtred));
+      });
+  }, [dispatch, selectedRoomId]);
+
   return (
     <ChatStyled>
       <div className="header">
@@ -54,73 +71,20 @@ const Chat = () => {
       </div>
 
       <div className="conversation">
-        <Message
-          src="https://i.imgur.com/4VHfwLy.png"
-          username="Regina Fisher"
-          timestamp="September 15, 3:11 PM"
-          text="Unpopular opinion: you should write E2E/integration tests *first*, always.
-            They should be directly related to business logic (user) requirements.
-            Only when an E2E/integration test fails should you even think about writing unit tests.
-            And be willing to delete those unit tests."
-          media={{
-            images: []
-          }}
-          isMe={false}
-        />
-
-        <Message
-          src="https://i.imgur.com/5ljivmo.png"
-          username="Randall Watson"
-          timestamp="September 15, 3:11 PM"
-          text="When we first started React Training, we had only one test for the whole website: make sure someone can buy a ticket. As long as that worked, everything else was negotiable 😅"
-          media={{
-            images: []
-          }}
-          isMe={true}
-        />
-
-        <Message
-          src="https://i.imgur.com/4VHfwLy.png"
-          username="Regina Fisher"
-          timestamp="September 15, 3:11 PM"
-          text="And that's all you need! No need to test how the sausage is made or how the soup turns into nuts."
-          media={{
-            images: []
-          }}
-          isMe={false}
-        />
-
-        <Message
-          src="https://i.imgur.com/5ljivmo.png"
-          username="Randall Watson"
-          timestamp="September 15, 3:11 PM"
-          text="¯\_(ツ)_/¯ i highly disagree - unit tests come first. You can more easily and more robustly test 99.99% of your app writing unit tests. Integration test failures mean you failed at proper unit testing."
-          media={{
-            images: []
-          }}
-          isMe={true}
-        />
-
-        <Message
-          src="https://i.imgur.com/4VHfwLy.png"
-          username="Regina Fisher"
-          timestamp="September 15, 3:11 PM"
-          text="What does testing 99.99% of your app mean, though? Code coverage? The purpose of your app is to fulfill requirements. Those requirements are seldom fully expressed in any individual unit test.I can write an app with 1000 passing unit tests that fails to meet requirements."
-          media={{
-            images: []
-          }}
-          isMe={false}
-        />
-        <Message
-          src="https://i.imgur.com/4VHfwLy.png"
-          username="Regina Fisher"
-          timestamp="September 15, 3:11 PM"
-          text="What does testing 99.99% of your app mean, though? Code coverage? The purpose of your app is to fulfill requirements. Those requirements are seldom fully expressed in any individual unit test.I can write an app with 1000 passing unit tests that fails to meet requirements."
-          media={{
-            images: []
-          }}
-          isMe={false}
-        />
+        {state.messages.length &&
+          state.messages.map(message => (
+            <Message
+              key={message.id}
+              src={message.user.src}
+              username={message.user.name}
+              timestamp={message.created_at}
+              text={message.text}
+              media={{
+                images: []
+              }}
+              isMe={message.author_id === user.currentUserId ? true : false}
+            />
+          ))}
       </div>
 
       <div className="textarea">
